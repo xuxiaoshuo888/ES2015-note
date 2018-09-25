@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var module = {
+        exports: {}
+    };
+
+    (function (module, exports) {
+        exports.multiply = function (n) {
+            return n * 1000
+        };
+    }(module, module.exports))
+
+    var f = module.exports.multiply;
+    f(5) // 5000
+
+    /**
+     *
+     *
+     一、CommonJS
+         1、定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)}
+             require()用来引入外部模块；
+             exports对象用于导出当前模块的方法或变量，唯一的导出口；
+             module对象就代表模块本身。
+
+             var math = require('math');
+             math.add(2, 3);
+             分析:必须等第一行运行完，加载math.js之后再运行第二行，浏览器可能假死
+         2、Browserify
+
+     二、AMD 异步模块定义Asynchronous Module Definition
+         1、诞生背景，CommonJS不兼容浏览器端，浏览器端 require模块是同步的，从后台下载到模块后才可调用，而服务端使用require时，
+         模块都是放在本地硬盘的，读取速度很快；
+         2、AMD也采用require()语句加载模块，　require([module], callback);第一个参数[module]，是一个数组，
+            里面的成员就是要加载的模块；第二个参数callback，则是加载成功之后的回调函数。
+            require(['math'], function (math) {
+　　　　        math.add(2, 3);
+　　          });
+         3、有两个Javascript库实现了AMD规范：require.js和curl.js
+         4、为什么用RequireJS
+            a、代码很多，一个JS文件放不下，分成几个文件引入，加载的文件多了，影响加载速度
+            b、加载代码块的顺序有要求
+        5、require.js解决2个问题---a、实现JS文件异步加载，避免网页失去响应，b、管理模块之间的依赖性，便于代码的编写和维护。
+        6、requirejs的加载--- <script src="js/require.js" data-main="js/main">
+            data-main指定网页程序的主模块，第一个被requirejs加载
+        7、主模块的写法---
+             require(['jquery', 'underscore', 'backbone'], function ($, _, Backbone){
+        　　　　// some code here
+        　　});
+            //requirejs假定这三个模块与main.js在同一个目录，文件都是.js后缀
+        8、模块的加载
+            自定义模块加载，传入一个对象参数，来进行配置
+             　require.config({
+            　　　　baseUrl: "js/lib",
+            　　　　paths: {
+            　　　　　　"jquery": "jquery.min",
+            　　　　　　"underscore": "underscore.min",
+            　　　　　　"backbone": "backbone.min"
+            　　　　}，
+                    shim: {//专门用来配置不兼容的模块
+                　　　　'jquery.scroll': {
+                　　　　　　deps: ['jquery'],//该模块的依赖性
+                　　　　　　exports: 'jQuery.fn.scroll' //输出的变量名
+                　　　　}
+                　　}
+        　　});
+            加载非规范模块的，requirejs按照AMD规范用define函数定义的模块
+
+     三、
+     */
+</script>
+</body>
+</html>
