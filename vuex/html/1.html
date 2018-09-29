@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex"></script>
+
+<body>
+<div id="A1">
+    <div>{{count}}</div>
+    <button @click="toadd">add</button>
+</div>
+</body>
+<script type="text/javascript">
+  const store = new Vuex.Store({
+    state: {
+      count: 0
+    },
+    mutations: {
+      add() {
+        this.state.count++
+      }
+    }
+  })
+
+  var app = new Vue({
+    el: '#A1',
+    data: {},
+    methods: {
+      toadd() {
+        store.commit('add')
+      }
+    },
+    computed: {
+      count() {
+        return store.state.count
+      }
+    }
+  })
+
+</script>
+</html>
